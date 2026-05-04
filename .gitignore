@@ -1,0 +1,20 @@
+# IntelliJ
+.idea/
+*.iml
+out/
+
+# Maven
+target/
+test-output/
+
+# Playwright browsers (if downloaded locally)
+.playwright/
+
+Allure local CLI
+.allure
+
+# OS noise
+.DS_Store
+Thumbs.db
+.ollamassist/
+

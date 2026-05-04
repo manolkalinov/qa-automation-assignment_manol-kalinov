@@ -1,0 +1,53 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+
+<suite name="Avenga Bookstore Suite">
+
+  <listeners>
+    <listener class-name="com.avenga.bookstore.framework.reporting.CustomHtmlReporter"/>
+    <listener class-name="com.avenga.bookstore.framework.TestLifecycleManager"/>
+  </listeners>
+
+  <test name="Smoke">
+    <groups>
+      <run>
+        <include name="p0"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="com.avenga.bookstore.tests.api.books"/>
+      <package name="com.avenga.bookstore.tests.api.authors"/>
+    </packages>
+  </test>
+
+  <test name="Books">
+    <groups>
+      <run>
+        <include name="books"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="com.avenga.bookstore.tests.api.books"/>
+      <package name="com.avenga.bookstore.tests.api.authors"/>
+    </packages>
+  </test>
+
+  <test name="Authors">
+    <groups>
+      <run>
+        <include name="authors"/>
+      </run>
+    </groups>
+    <packages>
+      <package name="com.avenga.bookstore.tests.api.books"/>
+      <package name="com.avenga.bookstore.tests.api.authors"/>
+    </packages>
+  </test>
+
+  <test name="Full Regression">
+    <packages>
+      <package name="com.avenga.bookstore.tests.api.books"/>
+      <package name="com.avenga.bookstore.tests.api.authors"/>
+    </packages>
+  </test>
+
+</suite>

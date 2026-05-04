@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bookstore-tests
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: bookstore-tests
+          image: bookstore-tests:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: bookstore-tests-config
+          volumeMounts:
+            - name: target
+              mountPath: /app/target
+      volumes:
+        - name: target
+          emptyDir: {}
