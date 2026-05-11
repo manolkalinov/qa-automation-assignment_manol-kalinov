@@ -22,17 +22,7 @@ public class BooksApiGetByIdTest extends BooksBaseApiTest {
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-GBI-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyGetByIdSuccessful() {
-        // Setup: id = 1 — known existing resource
-        var response = booksClient.retrieveBookById(1);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-    }
-
-    @Test(groups = {P1, BOOKS})
-    @TestID("BOOKS-GBI-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyGetByIdValidResponseFields() {
+    public void verifyGetByIdSuccessfulAndValidateFields() {
         // Setup: id = 1 — known existing resource
         var response = booksClient.retrieveBookById(1);
         assertThat(response.statusCode()).isEqualTo(200);

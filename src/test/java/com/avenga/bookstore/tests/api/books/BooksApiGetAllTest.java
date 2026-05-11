@@ -11,7 +11,6 @@ import org.testng.annotations.Test;
 
 import static com.avenga.bookstore.framework.test.metadata.TestGroups.Api.BOOKS;
 import static com.avenga.bookstore.framework.test.metadata.TestGroups.Priority.P0;
-import static com.avenga.bookstore.framework.test.metadata.TestGroups.Priority.P1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Epic("Books API")
@@ -22,17 +21,7 @@ public class BooksApiGetAllTest extends BooksBaseApiTest {
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-GAL-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyGetAllSuccessful() {
-        var response = booksClient.listBooks();
-
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotEmpty();
-    }
-
-    @Test(groups = {P1, BOOKS})
-    @TestID("BOOKS-GAL-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyGetAllResponseFieldsExist() {
+    public void verifyGetAllSuccessfulAndValidateFields() {
         var response = booksClient.listBooks();
 
         assertThat(response.statusCode()).isEqualTo(200);
