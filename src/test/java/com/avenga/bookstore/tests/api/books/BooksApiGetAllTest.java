@@ -1,7 +1,7 @@
 package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.test.metadata.TestID;
-
+import com.avenga.bookstore.tests.api.BaseApiTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("GET /api/v1/Books")
 @Story("Retrieve all books")
-public class BooksApiGetAllTest extends BooksBaseApiTest {
+public class BooksApiGetAllTest extends BaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-GAL-001")
     @Severity(SeverityLevel.CRITICAL)
     public void verifyGetAllSuccessful() {
-        var response = booksClient.listBooks();
+        var response = bookstoreClient.listBooks();
 
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
@@ -33,7 +33,7 @@ public class BooksApiGetAllTest extends BooksBaseApiTest {
     @TestID("BOOKS-GAL-002")
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetAllResponseFieldsExist() {
-        var response = booksClient.listBooks();
+        var response = bookstoreClient.listBooks();
 
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();

@@ -1,8 +1,7 @@
 package com.avenga.bookstore.framework.test.dependency;
 
 import com.avenga.bookstore.framework.client.ApiConfig;
-import com.avenga.bookstore.framework.client.AuthorsClient;
-import com.avenga.bookstore.framework.client.BooksClient;
+import com.avenga.bookstore.framework.client.BookstoreClient;
 import com.avenga.bookstore.framework.test.environment.TestEnvironmentApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Binder;
@@ -40,25 +39,18 @@ public class TestDependencyAssemblyApi implements Module {
 
   @Provides
   @Singleton
-  public BooksClient provideBooksClient(
+  public BookstoreClient provideBookstoreClient(
       OkHttpClient httpClient,
       ObjectMapper objectMapper,
       @Named("bookstore") ApiConfig apiConfig) {
-    return new BooksClient(httpClient, objectMapper, apiConfig);
-  }
-
-  @Provides
-  @Singleton
-  public AuthorsClient provideAuthorsClient(
-      OkHttpClient httpClient,
-      ObjectMapper objectMapper,
-      @Named("bookstore") ApiConfig apiConfig) {
-    return new AuthorsClient(httpClient, objectMapper, apiConfig);
+    BookstoreClient bookstoreClient = new BookstoreClient(httpClient, objectMapper, apiConfig);
+    return bookstoreClient;
   }
 
   @Provides
   @Singleton
   public TestEnvironmentApi provideTestEnvironmentApi(@Named("api.env") String envName) {
-    return new TestEnvironmentApi(envName);
+    TestEnvironmentApi testEnvironmentApi = new TestEnvironmentApi(envName);
+    return testEnvironmentApi;
   }
 }

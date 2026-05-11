@@ -2,7 +2,7 @@ package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.model.Book;
 import com.avenga.bookstore.framework.test.metadata.TestID;
-
+import com.avenga.bookstore.tests.api.BaseApiTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("POST /api/v1/Books")
 @Story("Create a book")
-public class BooksApiPostTest extends BooksBaseApiTest {
+public class BooksApiPostTest extends BaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-PST-001")
@@ -26,7 +26,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     public void verifyCreateSuccessful() {
         // Setup: book with all fields populated — title, description, pageCount > 0, excerpt, publishDate
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = booksClient.createBook(book);
+        var response = bookstoreClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -39,7 +39,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     public void verifyCreateValidResponseFieldsExist() {
         // Setup: book with all fields populated
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = booksClient.createBook(book);
+        var response = bookstoreClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -59,7 +59,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     public void verifyCreateValidIdEchoed() {
         // Setup: book with explicit id = 42
         var book = new Book(42, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = booksClient.createBook(book);
+        var response = bookstoreClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -75,7 +75,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     public void verifyCreateMissingRequiredFields() {
         // Setup: empty Book body — all fields absent
         var book = new Book(0, null, null, 0, null, null);
-        var response = booksClient.createBook(book);
+        var response = bookstoreClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
@@ -88,8 +88,8 @@ public class BooksApiPostTest extends BooksBaseApiTest {
         // TODO: consider parametrized approach in a future refactor
         var bookZero = new Book(0, "Test Title", "Description", 0, "Excerpt", "2024-01-01T00:00:00");
         var bookNegative = new Book(0, "Test Title", "Description", -1, "Excerpt", "2024-01-01T00:00:00");
-        var responseZero = booksClient.createBook(bookZero);
-        var responseNegative = booksClient.createBook(bookNegative);
+        var responseZero = bookstoreClient.createBook(bookZero);
+        var responseNegative = bookstoreClient.createBook(bookNegative);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -100,7 +100,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     @TestID("BOOKS-PST-006")
     @Severity(SeverityLevel.NORMAL)
     public void verifyCreateInvalidMalformed() {
-        var response = booksClient.createBook("{invalid");
+        var response = bookstoreClient.createBook("{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
