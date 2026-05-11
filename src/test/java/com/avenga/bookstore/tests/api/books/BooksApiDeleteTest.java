@@ -1,7 +1,7 @@
 package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -17,14 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("DELETE /api/v1/Books/{id}")
 @Story("Delete a book")
-public class BooksApiDeleteTest extends BaseApiTest {
+public class BooksApiDeleteTest extends BooksBaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-DEL-001")
     @Severity(SeverityLevel.CRITICAL)
     public void verifyDeleteSuccessful() {
         // Setup: id = 1 — known existing resource
-        var response = bookstoreClient.deleteBook(1);
+        var response = booksClient.deleteBook(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNull();
 
@@ -36,7 +36,7 @@ public class BooksApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteValidNotFound() {
         // Setup: id = 999999 — valid integer format, non-existent resource
-        var response = bookstoreClient.deleteBook(999999);
+        var response = booksClient.deleteBook(999999);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNull();
     }
@@ -46,8 +46,8 @@ public class BooksApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteInvalidId() {
         // Setup: two requests — deleteBook(0) and deleteBook(-1)
-        var responseZero = bookstoreClient.deleteBook(0);
-        var responseNegative = bookstoreClient.deleteBook(-1);
+        var responseZero = booksClient.deleteBook(0);
+        var responseNegative = booksClient.deleteBook(-1);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -59,7 +59,7 @@ public class BooksApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteInvalidMalformed() {
         // Setup: id = 'babayaga' — non-numeric string; uses String overload of deleteBook
-        var response = bookstoreClient.deleteBook("babayaga");
+        var response = booksClient.deleteBook("babayaga");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
