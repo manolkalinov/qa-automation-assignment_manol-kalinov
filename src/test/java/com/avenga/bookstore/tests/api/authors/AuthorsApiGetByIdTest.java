@@ -22,17 +22,7 @@ public class AuthorsApiGetByIdTest extends AuthorsBaseApiTest {
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-GBI-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyGetByIdSuccessful() {
-        // Setup: id = 1 — known existing resource
-        var response = authorsClient.retrieveAuthorById(1);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-    }
-
-    @Test(groups = {P1, AUTHORS})
-    @TestID("AUTHORS-GBI-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyGetByIdValidResponseFields() {
+    public void verifyGetByIdSuccessfulAndValidateFields() {
         // Setup: id = 1 — known existing resource
         var response = authorsClient.retrieveAuthorById(1);
         assertThat(response.statusCode()).isEqualTo(200);

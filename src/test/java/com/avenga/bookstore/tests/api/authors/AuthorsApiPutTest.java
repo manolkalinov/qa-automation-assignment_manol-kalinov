@@ -23,22 +23,9 @@ public class AuthorsApiPutTest extends AuthorsBaseApiTest {
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-PUT-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyPutSuccessful() {
+    public void verifyPutSuccessfulAndValidateFields() {
         // Setup: id = 1, author with all fields populated including updated firstName
         var author = new Author(1, 1, "Updated FirstName", "Doe");
-        var response = authorsClient.updateAuthor(1, author);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the update via GET.
-    }
-
-    @Test(groups = {P1, AUTHORS})
-    @TestID("AUTHORS-PUT-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyPutValidResponseFieldsExist() {
-        // Setup: id = 1, author with all fields populated
-        var author = new Author(1, 1, "John", "Doe");
         var response = authorsClient.updateAuthor(1, author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
@@ -49,7 +36,7 @@ public class AuthorsApiPutTest extends AuthorsBaseApiTest {
         softly().assertThat(response.body().firstName()).isNotNull();
         softly().assertThat(response.body().lastName()).isNotNull();
 
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally.
+        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the update via GET.
     }
 
     @Test(groups = {P1, AUTHORS})

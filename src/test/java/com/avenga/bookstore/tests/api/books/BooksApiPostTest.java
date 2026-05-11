@@ -23,21 +23,8 @@ public class BooksApiPostTest extends BooksBaseApiTest {
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-PST-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyCreateSuccessful() {
+    public void verifyCreateSuccessfulAndValidateFields() {
         // Setup: book with all fields populated — title, description, pageCount > 0, excerpt, publishDate
-        var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = booksClient.createBook(book);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
-    }
-
-    @Test(groups = {P1, BOOKS})
-    @TestID("BOOKS-PST-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyCreateValidResponseFieldsExist() {
-        // Setup: book with all fields populated
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
         var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
@@ -50,7 +37,7 @@ public class BooksApiPostTest extends BooksBaseApiTest {
         softly().assertThat(response.body().pageCount()).isGreaterThanOrEqualTo(0);
         softly().assertThat(response.body().publishDate()).isNotBlank();
 
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally.
+        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
     }
 
     @Test(groups = {P1, BOOKS})

@@ -23,21 +23,8 @@ public class AuthorsApiPostTest extends AuthorsBaseApiTest {
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-PST-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyCreateSuccessful() {
+    public void verifyCreateSuccessfulAndValidateFields() {
         // Setup: author with all fields populated — idBook = 1, firstName and lastName non-blank
-        var author = new Author(0, 1, "John", "Doe");
-        var response = authorsClient.createAuthor(author);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
-    }
-
-    @Test(groups = {P1, AUTHORS})
-    @TestID("AUTHORS-PST-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyCreateValidResponseFieldsExist() {
-        // Setup: author with all fields populated
         var author = new Author(0, 1, "John", "Doe");
         var response = authorsClient.createAuthor(author);
         assertThat(response.statusCode()).isEqualTo(200);
@@ -49,7 +36,7 @@ public class AuthorsApiPostTest extends AuthorsBaseApiTest {
         softly().assertThat(response.body().firstName()).isNotNull();
         softly().assertThat(response.body().lastName()).isNotNull();
 
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally.
+        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
     }
 
     @Test(groups = {P1, AUTHORS})
