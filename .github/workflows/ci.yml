@@ -43,11 +43,14 @@ jobs:
 
       - run: mvn test -Dsurefire.suiteXmlFiles=src/test/resources/testng-full.xml -B -q
 
-      - name: Generate Allure report
-        run: mvn allure:report -q
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline --save-dev
+
+      - name: Generate single-file Allure report
+        run: allure generate --single-file target/allure-results -o target/allure-single-file
 
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: full-regression-report
-          path: target/site/allure-maven-plugin/
+          name: allure-report-single-file
+          path: target/allure-single-file/index.html
