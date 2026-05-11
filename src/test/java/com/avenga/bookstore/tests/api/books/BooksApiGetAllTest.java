@@ -1,7 +1,7 @@
 package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("GET /api/v1/Books")
 @Story("Retrieve all books")
-public class BooksApiGetAllTest extends BaseApiTest {
+public class BooksApiGetAllTest extends BooksBaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-GAL-001")
