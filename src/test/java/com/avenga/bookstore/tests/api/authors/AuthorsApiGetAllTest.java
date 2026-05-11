@@ -23,7 +23,7 @@ public class AuthorsApiGetAllTest extends BaseApiTest {
     @TestID("AUTHORS-GAL-001")
     @Severity(SeverityLevel.CRITICAL)
     public void verifyGetAllSuccessful() {
-        var response = bookstoreClient.listAuthors();
+        var response = authorsClient.listAuthors();
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
     }
@@ -32,7 +32,7 @@ public class AuthorsApiGetAllTest extends BaseApiTest {
     @TestID("AUTHORS-GAL-002")
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetAllResponseFieldsExist() {
-        var response = bookstoreClient.listAuthors();
+        var response = authorsClient.listAuthors();
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
 

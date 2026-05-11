@@ -26,7 +26,7 @@ public class AuthorsApiPutTest extends BaseApiTest {
     public void verifyPutSuccessful() {
         // Setup: id = 1, author with all fields populated including updated firstName
         var author = new Author(1, 1, "Updated FirstName", "Doe");
-        var response = bookstoreClient.updateAuthor(1, author);
+        var response = authorsClient.updateAuthor(1, author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -39,7 +39,7 @@ public class AuthorsApiPutTest extends BaseApiTest {
     public void verifyPutValidResponseFieldsExist() {
         // Setup: id = 1, author with all fields populated
         var author = new Author(1, 1, "John", "Doe");
-        var response = bookstoreClient.updateAuthor(1, author);
+        var response = authorsClient.updateAuthor(1, author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -58,7 +58,7 @@ public class AuthorsApiPutTest extends BaseApiTest {
     public void verifyPutValidNotFound() {
         // Setup: id = 999999 — valid integer format, non-existent resource; valid author body
         var author = new Author(999999, 1, "John", "Doe");
-        var response = bookstoreClient.updateAuthor(999999, author);
+        var response = authorsClient.updateAuthor(999999, author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
     }
@@ -69,7 +69,7 @@ public class AuthorsApiPutTest extends BaseApiTest {
     public void verifyPutMissingRequiredFields() {
         // Setup: id = 1, empty Author body — all fields absent
         var author = new Author(0, 0, null, null);
-        var response = bookstoreClient.updateAuthor(1, author);
+        var response = authorsClient.updateAuthor(1, author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
     }
@@ -80,8 +80,8 @@ public class AuthorsApiPutTest extends BaseApiTest {
     public void verifyPutInvalidId() {
         // Setup: two requests — valid author body with id=0 and id=-1 in path
         var author = new Author(0, 1, "John", "Doe");
-        var responseZero = bookstoreClient.updateAuthor(0, author);
-        var responseNegative = bookstoreClient.updateAuthor(-1, author);
+        var responseZero = authorsClient.updateAuthor(0, author);
+        var responseNegative = authorsClient.updateAuthor(-1, author);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -92,7 +92,7 @@ public class AuthorsApiPutTest extends BaseApiTest {
     @TestID("AUTHORS-PUT-006")
     @Severity(SeverityLevel.NORMAL)
     public void verifyPutInvalidMalformed() {
-        var response = bookstoreClient.updateAuthor(1, "{invalid");
+        var response = authorsClient.updateAuthor(1, "{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
