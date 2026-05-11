@@ -2,7 +2,7 @@ package com.avenga.bookstore.tests.api.authors;
 
 import com.avenga.bookstore.framework.model.Author;
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Authors API")
 @Feature("PUT /api/v1/Authors/{id}")
 @Story("Update an author")
-public class AuthorsApiPutTest extends BaseApiTest {
+public class AuthorsApiPutTest extends AuthorsBaseApiTest {
 
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-PUT-001")

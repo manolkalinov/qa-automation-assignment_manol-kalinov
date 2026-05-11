@@ -1,7 +1,7 @@
 package com.avenga.bookstore.tests.api.authors;
 
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Authors API")
 @Feature("DELETE /api/v1/Authors/{id}")
 @Story("Delete an author")
-public class AuthorsApiDeleteTest extends BaseApiTest {
+public class AuthorsApiDeleteTest extends AuthorsBaseApiTest {
 
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-DEL-001")

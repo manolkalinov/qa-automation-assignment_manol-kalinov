@@ -2,7 +2,7 @@ package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.model.Book;
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("PUT /api/v1/Books/{id}")
 @Story("Update a book")
-public class BooksApiPutTest extends BaseApiTest {
+public class BooksApiPutTest extends BooksBaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-PUT-001")
