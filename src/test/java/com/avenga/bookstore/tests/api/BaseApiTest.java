@@ -2,8 +2,9 @@ package com.avenga.bookstore.tests.api;
 
 import com.avenga.bookstore.framework.TestLifecycleManager;
 import com.avenga.bookstore.framework.WithLogging;
-import com.avenga.bookstore.framework.client.BookstoreClient;
 import com.avenga.bookstore.framework.assertions.AssertionContext;
+import com.avenga.bookstore.framework.client.AuthorsClient;
+import com.avenga.bookstore.framework.client.BooksClient;
 import com.avenga.bookstore.framework.reporting.CustomHtmlReporter;
 import com.avenga.bookstore.framework.test.dependency.TestDependencyAssemblyApi;
 import com.avenga.bookstore.framework.test.dependency.TestDependencyAssemblyBase;
@@ -17,7 +18,10 @@ import org.testng.annotations.Listeners;
 public abstract class BaseApiTest extends WithLogging {
 
   @Inject
-  protected BookstoreClient bookstoreClient;
+  protected BooksClient booksClient;
+
+  @Inject
+  protected AuthorsClient authorsClient;
 
   protected SoftAssertions softly() {
     SoftAssertions softAssertions = AssertionContext.current();

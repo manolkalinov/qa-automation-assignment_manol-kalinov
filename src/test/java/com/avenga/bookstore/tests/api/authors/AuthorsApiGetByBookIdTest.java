@@ -24,7 +24,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.CRITICAL)
     public void verifyGetByBookIdSuccessful() {
         // Setup: idBook = 1 — known existing book resource
-        var response = bookstoreClient.listAuthorsByBookId(1);
+        var response = authorsClient.listAuthorsByBookId(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
     }
@@ -34,7 +34,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdValidResponseFields() {
         // Setup: idBook = 1 — known existing book resource
-        var response = bookstoreClient.listAuthorsByBookId(1);
+        var response = authorsClient.listAuthorsByBookId(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
 
@@ -51,7 +51,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdValidNotFound() {
         // Setup: idBook = 999999 — valid integer format, non-existent book resource
-        var response = bookstoreClient.listAuthorsByBookId(999999);
+        var response = authorsClient.listAuthorsByBookId(999999);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }
@@ -61,7 +61,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdInvalidZero() {
         // Setup: idBook = 0 — boundary value, invalid per domain contract
-        var response = bookstoreClient.listAuthorsByBookId(0);
+        var response = authorsClient.listAuthorsByBookId(0);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }
@@ -71,7 +71,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdInvalidNegative() {
         // Setup: idBook = -1 — negative value, invalid per domain contract
-        var response = bookstoreClient.listAuthorsByBookId(-1);
+        var response = authorsClient.listAuthorsByBookId(-1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }

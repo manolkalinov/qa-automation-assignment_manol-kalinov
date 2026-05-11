@@ -24,7 +24,7 @@ public class AuthorsApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.CRITICAL)
     public void verifyDeleteSuccessful() {
         // Setup: id = 1 — known existing resource
-        var response = bookstoreClient.deleteAuthor(1);
+        var response = authorsClient.deleteAuthor(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNull();
 
@@ -36,7 +36,7 @@ public class AuthorsApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteValidNotFound() {
         // Setup: id = 999999 — valid integer format, non-existent resource
-        var response = bookstoreClient.deleteAuthor(999999);
+        var response = authorsClient.deleteAuthor(999999);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNull();
     }
@@ -46,8 +46,8 @@ public class AuthorsApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteInvalidId() {
         // Setup: two requests — deleteAuthor(0) and deleteAuthor(-1)
-        var responseZero = bookstoreClient.deleteAuthor(0);
-        var responseNegative = bookstoreClient.deleteAuthor(-1);
+        var responseZero = authorsClient.deleteAuthor(0);
+        var responseNegative = authorsClient.deleteAuthor(-1);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -59,7 +59,7 @@ public class AuthorsApiDeleteTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyDeleteInvalidMalformed() {
         // Setup: id = 'babayaga' — non-numeric string; uses String overload of deleteAuthor
-        var response = bookstoreClient.deleteAuthor("babayaga");
+        var response = authorsClient.deleteAuthor("babayaga");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }

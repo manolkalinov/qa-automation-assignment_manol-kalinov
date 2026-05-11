@@ -26,7 +26,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateSuccessful() {
         // Setup: book with all fields populated — title, description, pageCount > 0, excerpt, publishDate
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -39,7 +39,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateValidResponseFieldsExist() {
         // Setup: book with all fields populated
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -59,7 +59,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateValidIdEchoed() {
         // Setup: book with explicit id = 42
         var book = new Book(42, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -75,7 +75,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateMissingRequiredFields() {
         // Setup: empty Book body — all fields absent
         var book = new Book(0, null, null, 0, null, null);
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
@@ -88,8 +88,8 @@ public class BooksApiPostTest extends BaseApiTest {
         // TODO: consider parametrized approach in a future refactor
         var bookZero = new Book(0, "Test Title", "Description", 0, "Excerpt", "2024-01-01T00:00:00");
         var bookNegative = new Book(0, "Test Title", "Description", -1, "Excerpt", "2024-01-01T00:00:00");
-        var responseZero = bookstoreClient.createBook(bookZero);
-        var responseNegative = bookstoreClient.createBook(bookNegative);
+        var responseZero = booksClient.createBook(bookZero);
+        var responseNegative = booksClient.createBook(bookNegative);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -100,7 +100,7 @@ public class BooksApiPostTest extends BaseApiTest {
     @TestID("BOOKS-PST-006")
     @Severity(SeverityLevel.NORMAL)
     public void verifyCreateInvalidMalformed() {
-        var response = bookstoreClient.createBook("{invalid");
+        var response = booksClient.createBook("{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }

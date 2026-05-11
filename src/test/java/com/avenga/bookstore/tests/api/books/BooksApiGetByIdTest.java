@@ -24,7 +24,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.CRITICAL)
     public void verifyGetByIdSuccessful() {
         // Setup: id = 1 — known existing resource
-        var response = bookstoreClient.retrieveBookById(1);
+        var response = booksClient.retrieveBookById(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
     }
@@ -34,7 +34,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByIdValidResponseFields() {
         // Setup: id = 1 — known existing resource
-        var response = bookstoreClient.retrieveBookById(1);
+        var response = booksClient.retrieveBookById(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -51,7 +51,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByIdValidNotFound() {
         // Setup: id = 999999 — valid integer format, non-existent resource
-        var response = bookstoreClient.retrieveBookById(999999);
+        var response = booksClient.retrieveBookById(999999);
         assertThat(response.statusCode()).isEqualTo(404);
         assertThat(response.body()).isNull();
     }
@@ -61,7 +61,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByIdInvalidZero() {
         // Setup: id = 0 — boundary value, invalid per domain contract
-        var response = bookstoreClient.retrieveBookById(0);
+        var response = booksClient.retrieveBookById(0);
         assertThat(response.statusCode()).isEqualTo(404);
         assertThat(response.body()).isNull();
     }
@@ -71,7 +71,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByIdInvalidNegative() {
         // Setup: id = -1 — negative value, invalid per domain contract
-        var response = bookstoreClient.retrieveBookById(-1);
+        var response = booksClient.retrieveBookById(-1);
         assertThat(response.statusCode()).isEqualTo(404);
         assertThat(response.body()).isNull();
     }
@@ -81,7 +81,7 @@ public class BooksApiGetByIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByIdInvalidMalformed() {
         // Setup: id = 'babayaga' — non-numeric string in integer path parameter; uses String overload of retrieveBookById
-        var response = bookstoreClient.retrieveBookById("babayaga");
+        var response = booksClient.retrieveBookById("babayaga");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }

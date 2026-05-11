@@ -26,7 +26,7 @@ public class AuthorsApiPostTest extends BaseApiTest {
     public void verifyCreateSuccessful() {
         // Setup: author with all fields populated — idBook = 1, firstName and lastName non-blank
         var author = new Author(0, 1, "John", "Doe");
-        var response = bookstoreClient.createAuthor(author);
+        var response = authorsClient.createAuthor(author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -39,7 +39,7 @@ public class AuthorsApiPostTest extends BaseApiTest {
     public void verifyCreateValidResponseFieldsExist() {
         // Setup: author with all fields populated
         var author = new Author(0, 1, "John", "Doe");
-        var response = bookstoreClient.createAuthor(author);
+        var response = authorsClient.createAuthor(author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -58,7 +58,7 @@ public class AuthorsApiPostTest extends BaseApiTest {
     public void verifyCreateValidIdEchoed() {
         // Setup: author with explicit id = 42, idBook = 1
         var author = new Author(42, 1, "John", "Doe");
-        var response = bookstoreClient.createAuthor(author);
+        var response = authorsClient.createAuthor(author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -74,7 +74,7 @@ public class AuthorsApiPostTest extends BaseApiTest {
     public void verifyCreateMissingRequiredFields() {
         // Setup: empty Author body — all fields absent
         var author = new Author(0, 0, null, null);
-        var response = bookstoreClient.createAuthor(author);
+        var response = authorsClient.createAuthor(author);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
     }
@@ -83,7 +83,7 @@ public class AuthorsApiPostTest extends BaseApiTest {
     @TestID("AUTHORS-PST-005")
     @Severity(SeverityLevel.NORMAL)
     public void verifyCreateInvalidMalformed() {
-        var response = bookstoreClient.createAuthor("{invalid");
+        var response = authorsClient.createAuthor("{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
