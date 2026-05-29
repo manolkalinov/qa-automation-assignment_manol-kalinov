@@ -139,33 +139,41 @@ public class CustomHtmlReporter implements IReporter {
   }
 
   private String mapStatus(int status) {
-    return switch (status) {
+    String mappedStatus = switch (status) {
       case ITestResult.SUCCESS -> "PASS";
       case ITestResult.FAILURE -> "FAIL";
       case ITestResult.SKIP -> "SKIP";
       default -> "UNKNOWN";
     };
+    return mappedStatus;
   }
 
   private String buildErrorMessage(ITestResult result) {
     Throwable throwable = result.getThrowable();
+    String errorMessage;
     if (throwable == null) {
-      return "";
+      errorMessage = "";
+    } else {
+      String message = throwable.getMessage();
+      if (message == null || message.isBlank()) {
+        errorMessage = throwable.getClass().getSimpleName();
+      } else {
+        errorMessage = message;
+      }
     }
-    String message = throwable.getMessage();
-    if (message == null || message.isBlank()) {
-      return throwable.getClass().getSimpleName();
-    }
-    return message;
+    return errorMessage;
   }
 
   private String escape(String text) {
+    String escaped;
     if (text == null) {
-      return "";
+      escaped = "";
+    } else {
+      escaped = text
+          .replace("&", "&amp;")
+          .replace("<", "&lt;")
+          .replace(">", "&gt;");
     }
-    return text
-        .replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;");
+    return escaped;
   }
 }

@@ -28,7 +28,8 @@ public abstract class BaseHttpClient extends WithLogging {
   }
 
   protected String normalizeBaseUrl(String raw) {
-    return raw.endsWith("/") ? raw.substring(0, raw.length() - 1) : raw;
+    String normalizedUrl = raw.endsWith("/") ? raw.substring(0, raw.length() - 1) : raw;
+    return normalizedUrl;
   }
 
   protected <T> ApiResponse<T> executeGet(String path, Class<T> bodyType) {
@@ -52,7 +53,8 @@ public abstract class BaseHttpClient extends WithLogging {
       throw new RuntimeException("Failed to execute GET " + path, e);
     }
 
-    return new ApiResponse<>(statusCode, body, headers);
+    ApiResponse<T> response = new ApiResponse<>(statusCode, body, headers);
+    return response;
   }
 
   protected <T> ApiResponse<T> executeGet(String path, TypeReference<T> typeRef) {
@@ -76,7 +78,8 @@ public abstract class BaseHttpClient extends WithLogging {
       throw new RuntimeException("Failed to execute GET " + path, e);
     }
 
-    return new ApiResponse<>(statusCode, body, headers);
+    ApiResponse<T> response = new ApiResponse<>(statusCode, body, headers);
+    return response;
   }
 
   protected <T> ApiResponse<T> executePost(String path, Object payload, Class<T> bodyType) {
@@ -104,7 +107,8 @@ public abstract class BaseHttpClient extends WithLogging {
       throw new RuntimeException("Failed to execute POST " + path, e);
     }
 
-    return new ApiResponse<>(statusCode, body, headers);
+    ApiResponse<T> response = new ApiResponse<>(statusCode, body, headers);
+    return response;
   }
 
   protected ApiResponse<Void> executePost(String path, String rawJson) {
@@ -122,7 +126,8 @@ public abstract class BaseHttpClient extends WithLogging {
     } catch (IOException e) {
       throw new RuntimeException("Failed to execute POST " + path, e);
     }
-    return new ApiResponse<>(statusCode, null, headers);
+    ApiResponse<Void> response = new ApiResponse<>(statusCode, null, headers);
+    return response;
   }
 
   protected <T> ApiResponse<T> executePut(String path, Object payload, Class<T> bodyType) {
@@ -150,7 +155,8 @@ public abstract class BaseHttpClient extends WithLogging {
       throw new RuntimeException("Failed to execute PUT " + path, e);
     }
 
-    return new ApiResponse<>(statusCode, body, headers);
+    ApiResponse<T> response = new ApiResponse<>(statusCode, body, headers);
+    return response;
   }
 
   protected ApiResponse<Void> executePut(String path, String rawJson) {
@@ -168,7 +174,8 @@ public abstract class BaseHttpClient extends WithLogging {
     } catch (IOException e) {
       throw new RuntimeException("Failed to execute PUT " + path, e);
     }
-    return new ApiResponse<>(statusCode, null, headers);
+    ApiResponse<Void> response = new ApiResponse<>(statusCode, null, headers);
+    return response;
   }
 
   protected ApiResponse<Void> executeDelete(String path) {
@@ -188,7 +195,8 @@ public abstract class BaseHttpClient extends WithLogging {
       throw new RuntimeException("Failed to execute DELETE " + path, e);
     }
 
-    return new ApiResponse<>(statusCode, null, headers);
+    ApiResponse<Void> response = new ApiResponse<>(statusCode, null, headers);
+    return response;
   }
 
   protected Map<String, String> extractHeaders(Response response) {
@@ -201,15 +209,18 @@ public abstract class BaseHttpClient extends WithLogging {
 
   protected String readBody(Response response) throws IOException {
     ResponseBody responseBody = response.body();
-    return responseBody != null ? responseBody.string() : "";
+    String bodyContent = responseBody != null ? responseBody.string() : "";
+    return bodyContent;
   }
 
   protected RequestBody buildJsonBody(Object payload, String path) {
+    RequestBody requestBody;
     try {
       String json = objectMapper.writeValueAsString(payload);
-      return RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
+      requestBody = RequestBody.create(json, MediaType.get("application/json; charset=utf-8"));
     } catch (JsonProcessingException e) {
       throw new RuntimeException("Failed to serialize request payload for " + path, e);
     }
+    return requestBody;
   }
 }

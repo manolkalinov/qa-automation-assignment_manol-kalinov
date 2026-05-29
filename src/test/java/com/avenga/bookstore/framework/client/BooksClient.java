@@ -14,38 +14,47 @@ public class BooksClient extends BaseHttpClient {
   }
 
   public ApiResponse<List<Book>> listBooks() {
-    return executeGet("/api/v1/Books", new TypeReference<List<Book>>() {});
+    ApiResponse<List<Book>> response = executeGet("/api/v1/Books", new TypeReference<List<Book>>() {});
+    return response;
   }
 
   public ApiResponse<Book> retrieveBookById(int id) {
-    return executeGet("/api/v1/Books/" + id, Book.class);
+    ApiResponse<Book> response = executeGet("/api/v1/Books/" + id, Book.class);
+    return response;
   }
 
   public ApiResponse<Book> retrieveBookById(String id) {
-    return executeGet("/api/v1/Books/" + id, Book.class);
+    ApiResponse<Book> response = executeGet("/api/v1/Books/" + id, Book.class);
+    return response;
   }
 
   public ApiResponse<Book> createBook(Book book) {
-    return executePost("/api/v1/Books", book, Book.class);
+    ApiResponse<Book> response = executePost("/api/v1/Books", book, Book.class);
+    return response;
   }
 
   public ApiResponse<Void> createBook(String rawJson) {
-    return executePost("/api/v1/Books", rawJson);
+    ApiResponse<Void> response = executePost("/api/v1/Books", rawJson);
+    return response;
   }
 
   public ApiResponse<Book> updateBook(int id, Book book) {
-    return executePut("/api/v1/Books/" + id, book, Book.class);
+    ApiResponse<Book> response = executePut("/api/v1/Books/" + id, book, Book.class);
+    return response;
   }
 
   public ApiResponse<Void> updateBook(int id, String rawJson) {
-    return executePut("/api/v1/Books/" + id, rawJson);
+    ApiResponse<Void> response = executePut("/api/v1/Books/" + id, rawJson);
+    return response;
   }
 
   public ApiResponse<Void> deleteBook(int id) {
-    return executeDelete("/api/v1/Books/" + id);
+    ApiResponse<Void> response = executeDelete("/api/v1/Books/" + id);
+    return response;
   }
 
   public ApiResponse<Void> deleteBook(String id) {
-    return executeDelete("/api/v1/Books/" + id);
+    ApiResponse<Void> response = executeDelete("/api/v1/Books/" + id);
+    return response;
   }
 }

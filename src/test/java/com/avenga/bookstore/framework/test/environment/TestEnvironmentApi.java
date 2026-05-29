@@ -11,10 +11,12 @@ public class TestEnvironmentApi extends TestEnvironmentBase {
   }
 
   public String getBaseUrl() {
-    return properties.getProperty("api.baseUrl");
+    String baseUrl = properties.getProperty("api.baseUrl");
+    return baseUrl;
   }
 
   public String getApiKey() {
-    return properties.getProperty("api.key");
+    String apiKey = properties.getProperty("api.key");
+    return apiKey;
   }
 }

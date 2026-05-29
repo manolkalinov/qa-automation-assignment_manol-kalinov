@@ -14,42 +14,52 @@ public class AuthorsClient extends BaseHttpClient {
   }
 
   public ApiResponse<List<Author>> listAuthors() {
-    return executeGet("/api/v1/Authors", new TypeReference<List<Author>>() {});
+    ApiResponse<List<Author>> response = executeGet("/api/v1/Authors", new TypeReference<List<Author>>() {});
+    return response;
   }
 
   public ApiResponse<Author> retrieveAuthorById(int id) {
-    return executeGet("/api/v1/Authors/" + id, Author.class);
+    ApiResponse<Author> response = executeGet("/api/v1/Authors/" + id, Author.class);
+    return response;
   }
 
   public ApiResponse<Author> retrieveAuthorById(String id) {
-    return executeGet("/api/v1/Authors/" + id, Author.class);
+    ApiResponse<Author> response = executeGet("/api/v1/Authors/" + id, Author.class);
+    return response;
   }
 
   public ApiResponse<List<Author>> listAuthorsByBookId(int idBook) {
-    return executeGet("/api/v1/Authors/authors/books/" + idBook, new TypeReference<List<Author>>() {});
+    ApiResponse<List<Author>> response = executeGet("/api/v1/Authors/authors/books/" + idBook, new TypeReference<List<Author>>() {});
+    return response;
   }
 
   public ApiResponse<Author> createAuthor(Author author) {
-    return executePost("/api/v1/Authors", author, Author.class);
+    ApiResponse<Author> response = executePost("/api/v1/Authors", author, Author.class);
+    return response;
   }
 
   public ApiResponse<Void> createAuthor(String rawJson) {
-    return executePost("/api/v1/Authors", rawJson);
+    ApiResponse<Void> response = executePost("/api/v1/Authors", rawJson);
+    return response;
   }
 
   public ApiResponse<Author> updateAuthor(int id, Author author) {
-    return executePut("/api/v1/Authors/" + id, author, Author.class);
+    ApiResponse<Author> response = executePut("/api/v1/Authors/" + id, author, Author.class);
+    return response;
   }
 
   public ApiResponse<Void> updateAuthor(int id, String rawJson) {
-    return executePut("/api/v1/Authors/" + id, rawJson);
+    ApiResponse<Void> response = executePut("/api/v1/Authors/" + id, rawJson);
+    return response;
   }
 
   public ApiResponse<Void> deleteAuthor(int id) {
-    return executeDelete("/api/v1/Authors/" + id);
+    ApiResponse<Void> response = executeDelete("/api/v1/Authors/" + id);
+    return response;
   }
 
   public ApiResponse<Void> deleteAuthor(String id) {
-    return executeDelete("/api/v1/Authors/" + id);
+    ApiResponse<Void> response = executeDelete("/api/v1/Authors/" + id);
+    return response;
   }
 }

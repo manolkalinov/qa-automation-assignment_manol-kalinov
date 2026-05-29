@@ -32,7 +32,8 @@ public class TestDependencyAssemblyApi implements Module {
         throw new IllegalStateException("Cannot find environment file: " + fileName);
       }
       properties.load(stream);
-      return new ApiConfig(properties.getProperty("bookstore.baseUrl"), "");
+      ApiConfig apiConfig = new ApiConfig(properties.getProperty("bookstore.baseUrl"), "");
+      return apiConfig;
     } catch (IOException e) {
       throw new RuntimeException("Failed to load bookstore configuration for env: " + envName, e);
     }
@@ -44,7 +45,8 @@ public class TestDependencyAssemblyApi implements Module {
       OkHttpClient httpClient,
       ObjectMapper objectMapper,
       @Named("bookstore") ApiConfig apiConfig) {
-    return new BooksClient(httpClient, objectMapper, apiConfig);
+    BooksClient booksClient = new BooksClient(httpClient, objectMapper, apiConfig);
+    return booksClient;
   }
 
   @Provides
@@ -53,12 +55,14 @@ public class TestDependencyAssemblyApi implements Module {
       OkHttpClient httpClient,
       ObjectMapper objectMapper,
       @Named("bookstore") ApiConfig apiConfig) {
-    return new AuthorsClient(httpClient, objectMapper, apiConfig);
+    AuthorsClient authorsClient = new AuthorsClient(httpClient, objectMapper, apiConfig);
+    return authorsClient;
   }
 
   @Provides
   @Singleton
   public TestEnvironmentApi provideTestEnvironmentApi(@Named("api.env") String envName) {
-    return new TestEnvironmentApi(envName);
+    TestEnvironmentApi testEnvironmentApi = new TestEnvironmentApi(envName);
+    return testEnvironmentApi;
   }
 }

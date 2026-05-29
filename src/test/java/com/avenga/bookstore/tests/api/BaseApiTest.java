@@ -15,6 +15,7 @@ import org.testng.annotations.Listeners;
 public abstract class BaseApiTest extends WithLogging {
 
   protected SoftAssertions softly() {
-    return AssertionContext.current();
+    SoftAssertions softAssertions = AssertionContext.current();
+    return softAssertions;
   }
 }
