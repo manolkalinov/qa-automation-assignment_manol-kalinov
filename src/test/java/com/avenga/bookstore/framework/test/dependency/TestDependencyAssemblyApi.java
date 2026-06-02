@@ -1,7 +1,8 @@
 package com.avenga.bookstore.framework.test.dependency;
 
 import com.avenga.bookstore.framework.client.ApiConfig;
-import com.avenga.bookstore.framework.client.BookstoreClient;
+import com.avenga.bookstore.framework.client.AuthorsClient;
+import com.avenga.bookstore.framework.client.BooksClient;
 import com.avenga.bookstore.framework.test.environment.TestEnvironmentApi;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Binder;
@@ -31,7 +32,8 @@ public class TestDependencyAssemblyApi implements Module {
         throw new IllegalStateException("Cannot find environment file: " + fileName);
       }
       properties.load(stream);
-      return new ApiConfig(properties.getProperty("bookstore.baseUrl"), "");
+      ApiConfig apiConfig = new ApiConfig(properties.getProperty("bookstore.baseUrl"), "");
+      return apiConfig;
     } catch (IOException e) {
       throw new RuntimeException("Failed to load bookstore configuration for env: " + envName, e);
     }
@@ -39,12 +41,22 @@ public class TestDependencyAssemblyApi implements Module {
 
   @Provides
   @Singleton
-  public BookstoreClient provideBookstoreClient(
+  public BooksClient provideBooksClient(
       OkHttpClient httpClient,
       ObjectMapper objectMapper,
       @Named("bookstore") ApiConfig apiConfig) {
-    BookstoreClient bookstoreClient = new BookstoreClient(httpClient, objectMapper, apiConfig);
-    return bookstoreClient;
+    BooksClient booksClient = new BooksClient(httpClient, objectMapper, apiConfig);
+    return booksClient;
+  }
+
+  @Provides
+  @Singleton
+  public AuthorsClient provideAuthorsClient(
+      OkHttpClient httpClient,
+      ObjectMapper objectMapper,
+      @Named("bookstore") ApiConfig apiConfig) {
+    AuthorsClient authorsClient = new AuthorsClient(httpClient, objectMapper, apiConfig);
+    return authorsClient;
   }
 
   @Provides

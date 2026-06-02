@@ -2,7 +2,7 @@ package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.model.Book;
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,28 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("POST /api/v1/Books")
 @Story("Create a book")
-public class BooksApiPostTest extends BaseApiTest {
+public class BooksApiPostTest extends BooksBaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-PST-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyCreateSuccessful() {
+    public void verifyCreateSuccessfulAndValidateFields() {
         // Setup: book with all fields populated — title, description, pageCount > 0, excerpt, publishDate
         var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
-    }
-
-    @Test(groups = {P1, BOOKS})
-    @TestID("BOOKS-PST-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyCreateValidResponseFieldsExist() {
-        // Setup: book with all fields populated
-        var book = new Book(0, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -50,7 +37,7 @@ public class BooksApiPostTest extends BaseApiTest {
         softly().assertThat(response.body().pageCount()).isGreaterThanOrEqualTo(0);
         softly().assertThat(response.body().publishDate()).isNotBlank();
 
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally.
+        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the created resource via GET.
     }
 
     @Test(groups = {P1, BOOKS})
@@ -59,7 +46,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateValidIdEchoed() {
         // Setup: book with explicit id = 42
         var book = new Book(42, "Clean Code", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -75,7 +62,7 @@ public class BooksApiPostTest extends BaseApiTest {
     public void verifyCreateMissingRequiredFields() {
         // Setup: empty Book body — all fields absent
         var book = new Book(0, null, null, 0, null, null);
-        var response = bookstoreClient.createBook(book);
+        var response = booksClient.createBook(book);
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
@@ -88,8 +75,8 @@ public class BooksApiPostTest extends BaseApiTest {
         // TODO: consider parametrized approach in a future refactor
         var bookZero = new Book(0, "Test Title", "Description", 0, "Excerpt", "2024-01-01T00:00:00");
         var bookNegative = new Book(0, "Test Title", "Description", -1, "Excerpt", "2024-01-01T00:00:00");
-        var responseZero = bookstoreClient.createBook(bookZero);
-        var responseNegative = bookstoreClient.createBook(bookNegative);
+        var responseZero = booksClient.createBook(bookZero);
+        var responseNegative = booksClient.createBook(bookNegative);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -100,7 +87,7 @@ public class BooksApiPostTest extends BaseApiTest {
     @TestID("BOOKS-PST-006")
     @Severity(SeverityLevel.NORMAL)
     public void verifyCreateInvalidMalformed() {
-        var response = bookstoreClient.createBook("{invalid");
+        var response = booksClient.createBook("{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }

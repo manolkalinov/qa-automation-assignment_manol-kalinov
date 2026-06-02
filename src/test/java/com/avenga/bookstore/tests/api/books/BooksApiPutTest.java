@@ -2,7 +2,7 @@ package com.avenga.bookstore.tests.api.books;
 
 import com.avenga.bookstore.framework.model.Book;
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -18,28 +18,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Books API")
 @Feature("PUT /api/v1/Books/{id}")
 @Story("Update a book")
-public class BooksApiPutTest extends BaseApiTest {
+public class BooksApiPutTest extends BooksBaseApiTest {
 
     @Test(groups = {P0, BOOKS})
     @TestID("BOOKS-PUT-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyPutSuccessful() {
+    public void verifyPutSuccessfulAndValidateFields() {
         // Setup: id = 1, book with all fields populated including updated title
         var book = new Book(1, "Updated Title", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.updateBook(1, book);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotNull();
-
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the update via GET.
-    }
-
-    @Test(groups = {P1, BOOKS})
-    @TestID("BOOKS-PUT-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyPutValidResponseFieldsExist() {
-        // Setup: id = 1, book with all fields populated
-        var book = new Book(1, "Updated Title", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.updateBook(1, book);
+        var response = booksClient.updateBook(1, book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
 
@@ -50,7 +37,7 @@ public class BooksApiPutTest extends BaseApiTest {
         softly().assertThat(response.body().pageCount()).isGreaterThanOrEqualTo(0);
         softly().assertThat(response.body().publishDate()).isNotBlank();
 
-        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally.
+        // Cleanup: Note: FakeRestAPI is non-persistent — follow-up GET verification omitted intentionally. In a real system this test would verify the update via GET.
     }
 
     @Test(groups = {P1, BOOKS})
@@ -59,7 +46,7 @@ public class BooksApiPutTest extends BaseApiTest {
     public void verifyPutValidNotFound() {
         // Setup: id = 999999 — valid integer format, non-existent resource; valid book body
         var book = new Book(999999, "Updated Title", "A Handbook of Agile Software Craftsmanship", 431, "Chapter excerpt", "2024-01-01T00:00:00");
-        var response = bookstoreClient.updateBook(999999, book);
+        var response = booksClient.updateBook(999999, book);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull();
     }
@@ -70,7 +57,7 @@ public class BooksApiPutTest extends BaseApiTest {
     public void verifyPutMissingRequiredFields() {
         // Setup: id = 1, empty Book body — all fields absent
         var book = new Book(0, null, null, 0, null, null);
-        var response = bookstoreClient.updateBook(1, book);
+        var response = booksClient.updateBook(1, book);
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }
@@ -81,8 +68,8 @@ public class BooksApiPutTest extends BaseApiTest {
     public void verifyPutInvalidId() {
         // Setup: two requests — valid book body with id=0 and id=-1 in path
         var book = new Book(0, "Test Title", "Description", 100, "Excerpt", "2024-01-01T00:00:00");
-        var responseZero = bookstoreClient.updateBook(0, book);
-        var responseNegative = bookstoreClient.updateBook(-1, book);
+        var responseZero = booksClient.updateBook(0, book);
+        var responseNegative = booksClient.updateBook(-1, book);
 
         // Soft verifications
         softly().assertThat(responseZero.statusCode()).isEqualTo(200);
@@ -93,7 +80,7 @@ public class BooksApiPutTest extends BaseApiTest {
     @TestID("BOOKS-PUT-006")
     @Severity(SeverityLevel.NORMAL)
     public void verifyPutInvalidMalformed() {
-        var response = bookstoreClient.updateBook(1, "{invalid");
+        var response = booksClient.updateBook(1, "{invalid");
         assertThat(response.statusCode()).isEqualTo(400);
         assertThat(response.body()).isNull();
     }

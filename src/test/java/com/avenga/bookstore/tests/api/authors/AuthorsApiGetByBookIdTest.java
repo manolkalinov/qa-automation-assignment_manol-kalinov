@@ -1,7 +1,7 @@
 package com.avenga.bookstore.tests.api.authors;
 
 import com.avenga.bookstore.framework.test.metadata.TestID;
-import com.avenga.bookstore.tests.api.BaseApiTest;
+
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -17,24 +17,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Epic("Authors API")
 @Feature("GET /api/v1/Authors/authors/books/{idBook}")
 @Story("Retrieve authors by book ID")
-public class AuthorsApiGetByBookIdTest extends BaseApiTest {
+public class AuthorsApiGetByBookIdTest extends AuthorsBaseApiTest {
 
     @Test(groups = {P0, AUTHORS})
     @TestID("AUTHORS-GBB-001")
     @Severity(SeverityLevel.CRITICAL)
-    public void verifyGetByBookIdSuccessful() {
+    public void verifyGetByBookIdSuccessfulAndValidateFields() {
         // Setup: idBook = 1 — known existing book resource
-        var response = bookstoreClient.listAuthorsByBookId(1);
-        assertThat(response.statusCode()).isEqualTo(200);
-        assertThat(response.body()).isNotEmpty();
-    }
-
-    @Test(groups = {P1, AUTHORS})
-    @TestID("AUTHORS-GBB-002")
-    @Severity(SeverityLevel.NORMAL)
-    public void verifyGetByBookIdValidResponseFields() {
-        // Setup: idBook = 1 — known existing book resource
-        var response = bookstoreClient.listAuthorsByBookId(1);
+        var response = authorsClient.listAuthorsByBookId(1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotEmpty();
 
@@ -51,7 +41,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdValidNotFound() {
         // Setup: idBook = 999999 — valid integer format, non-existent book resource
-        var response = bookstoreClient.listAuthorsByBookId(999999);
+        var response = authorsClient.listAuthorsByBookId(999999);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }
@@ -61,7 +51,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdInvalidZero() {
         // Setup: idBook = 0 — boundary value, invalid per domain contract
-        var response = bookstoreClient.listAuthorsByBookId(0);
+        var response = authorsClient.listAuthorsByBookId(0);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }
@@ -71,7 +61,7 @@ public class AuthorsApiGetByBookIdTest extends BaseApiTest {
     @Severity(SeverityLevel.NORMAL)
     public void verifyGetByBookIdInvalidNegative() {
         // Setup: idBook = -1 — negative value, invalid per domain contract
-        var response = bookstoreClient.listAuthorsByBookId(-1);
+        var response = authorsClient.listAuthorsByBookId(-1);
         assertThat(response.statusCode()).isEqualTo(200);
         assertThat(response.body()).isNotNull().isEmpty();
     }
