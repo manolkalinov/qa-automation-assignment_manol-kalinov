@@ -3,6 +3,8 @@
 *.iml
 out/
 
+.claude
+
 # Maven
 target/
 test-output/
